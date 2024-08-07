@@ -1,0 +1,62 @@
+server:
+  port: 8072
+spring:
+  application:
+    name: gatewayserver
+  threads:
+    virtual:
+      enabled: true
+#  config:
+#    import: "optional:configserver:http://localhost:8071/"
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:8080/realms/ecommerce-realm/protocol/openid-connect/certs"
+          issuer-uri: "http://localhost:8080/realms/ecommerce-realm"
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: "http://localhost:8070/eureka/"
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lowerCaseServiceId: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 10s
+
+
+
+#  webservices:
+#    path: "/api"
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /openapi.yml
+info:
+  app:
+    name: "gatewayserver"
+    description: "Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      learning:
+        gatewayserver: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+        oauth2: DEBUG
